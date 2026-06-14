@@ -2,11 +2,14 @@
   "name": "simpend/sistem-pendakian",
   "description": "Sistem Informasi Manajemen Pendakian",
   "type": "project",
-  "require": {},
+  "require": {
+    "php": "^8.0"
+  },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "platform-check": false
   },
   "minimum-stability": "stable",
   "prefer-stable": true
