@@ -1,28 +1,31 @@
-# Dockerfile untuk SIMPEND: PHP-FPM + Nginx + Supervisord
-FROM php:8.2-fpm
+# Dockerfile untuk SIMPEND PHP Native (PHP-FPM + Nginx + Supervisord)
+FROM php:8.2-fpm-alpine
+
+# Install system dependencies
+RUN apk add --no-cache nginx supervisor curl
 
 # Install ekstensi PHP yang dibutuhkan
 RUN docker-php-ext-install mysqli pdo_mysql
 
-# Install Nginx & Supervisor
-RUN apt-get update && apt-get install -y nginx supervisor && rm -rf /var/lib/apt/lists/*
+# Set working directory
+WORKDIR /var/www/html
 
-# Konfigurasi Nginx
-COPY nginx.conf /etc/nginx/sites-available/default
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Salin semua file proyek (PHP Native)
+COPY . /var/www/html
 
-# Konfigurasi Supervisor
+# Copy Nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy supervisor config
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Salin semua file proyek ke direktori web
-COPY . /var/www/html/
-
 # Atur izin file
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
+RUN chown -R nobody:nobody /var/www/html && chmod -R 755 /var/www/html
 
-# Port yang digunakan
+# Expose port
 EXPOSE 8080
 
-# Jalankan Supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Start supervisord as PID 1
+ENTRYPOINT ["/usr/bin/supervisord"]
+CMD ["-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
