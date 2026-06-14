@@ -1,13 +1,19 @@
 <?php
 // Koneksi database untuk Railway (Dengan Debug)
-$host = getenv('MYSQLHOST') ?: $_ENV['MYSQLHOST'] ?? '';
-$port = (int)(getenv('MYSQLPORT') ?: $_ENV['MYSQLPORT'] ?? 3306);
-$user = getenv('MYSQLUSER') ?: $_ENV['MYSQLUSER'] ?? '';
-$pass = getenv('MYSQLPASSWORD') ?: $_ENV['MYSQLPASSWORD'] ?? '';
-$dbname = getenv('MYSQLDATABASE') ?: $_ENV['MYSQLDATABASE'] ?? '';
+$host = getenv('MYSQLHOST') ?: $_ENV['MYSQLHOST'] ?? getenv('MYSQL_HOST') ?: $_ENV['MYSQL_HOST'] ?? '';
+$port = (int)(getenv('MYSQLPORT') ?: $_ENV['MYSQLPORT'] ?? getenv('MYSQL_PORT') ?: $_ENV['MYSQL_PORT'] ?? 3306);
+$user = getenv('MYSQLUSER') ?: $_ENV['MYSQLUSER'] ?? getenv('MYSQL_USER') ?: $_ENV['MYSQL_USER'] ?? '';
+$pass = getenv('MYSQLPASSWORD') ?: $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQL_PASSWORD') ?: $_ENV['MYSQL_PASSWORD'] ?? '';
+$dbname = getenv('MYSQLDATABASE') ?: $_ENV['MYSQLDATABASE'] ?? getenv('MYSQL_DATABASE') ?: $_ENV['MYSQL_DATABASE'] ?? '';
 
 // Debug: Tampilkan variabel (hapus setelah berhasil!)
-// echo "Host: $host, Port: $port, User: $user, DB: $dbname<br>";
+echo "<pre>";
+echo "Host: '$host'\n";
+echo "Port: '$port'\n";
+echo "User: '$user'\n";
+echo "Pass: '$pass'\n";
+echo "DB: '$dbname'\n";
+echo "</pre>";
 
 $conn = new mysqli($host, $user, $pass, $dbname, $port);
 // Ambil daftar gunung untuk dropdown
