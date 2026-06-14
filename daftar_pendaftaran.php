@@ -1,10 +1,10 @@
 <?php
-// Koneksi database untuk Railway
-$host = getenv('MYSQLHOST');
-$port = getenv('MYSQLPORT');
-$user = getenv('MYSQLUSER');
-$pass = getenv('MYSQLPASSWORD');
-$dbname = getenv('MYSQLDATABASE');
+// Koneksi database untuk Railway (Dengan Debug)
+$host = getenv('MYSQLHOST') ?: $_ENV['MYSQLHOST'] ?? '';
+$port = getenv('MYSQLPORT') ?: $_ENV['MYSQLPORT'] ?? '';
+$user = getenv('MYSQLUSER') ?: $_ENV['MYSQLUSER'] ?? '';
+$pass = getenv('MYSQLPASSWORD') ?: $_ENV['MYSQLPASSWORD'] ?? '';
+$dbname = getenv('MYSQLDATABASE') ?: $_ENV['MYSQLDATABASE'] ?? '';
 
 $conn = new mysqli($host, $user, $pass, $dbname, $port);
 
