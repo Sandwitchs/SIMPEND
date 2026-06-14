@@ -1,0 +1,38 @@
+# Proyek SIMPEND - File yang diabaikan Git
+# Tetap upload file penting, hanya abaikan cache dan vendor
+
+# Laravel Cache & Vendor (besar, tidak perlu diupload)
+simpend-laravel/vendor/
+simpend-laravel/node_modules/
+simpend-laravel/public/storage
+simpend-laravel/storage/*.key
+simpend-laravel/storage/logs/*.log
+simpend-laravel/storage/framework/sessions/*
+simpend-laravel/storage/framework/views/*
+simpend-laravel/storage/framework/cache/*
+simpend-laravel/.env
+simpend-laravel/.env.*
+simpend-laravel.composer.lock
+simpend-laravel/package-lock.json
+
+# File Konfigurasi & Rahasia
+.env
+.env.*
+
+# File Cache & Log
+*.log
+*.tmp
+*.cache
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE Files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
