@@ -6,7 +6,14 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$conn = new mysqli("localhost", "root", "", "simpend_db");
+// Koneksi database untuk Railway
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$dbname = getenv('MYSQLDATABASE');
+
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 if ($conn->connect_error) {
     die("<b style='color:red'>Koneksi Database Gagal:</b> " . $conn->connect_error);
 }

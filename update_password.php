@@ -2,7 +2,14 @@
 session_start();
 if (!isset($_SESSION['admin_logged_in'])) { header("Location: login.php"); exit; }
 
-$conn = new mysqli("localhost", "root", "", "simpend_db");
+// Koneksi database untuk Railway
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$dbname = getenv('MYSQLDATABASE');
+
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 
 // Mendukung kedua session key untuk kompatibilitas
 $username = $_SESSION['admin_username'] ?? $_SESSION['username'] ?? '';

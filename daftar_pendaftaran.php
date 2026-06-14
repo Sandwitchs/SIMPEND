@@ -1,5 +1,12 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "simpend_db");
+// Koneksi database untuk Railway
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$dbname = getenv('MYSQLDATABASE');
+
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 
 // Ambil semua data pendaftaran yang terbaru
 $query = $conn->query("SELECT id_booking, nama_ketua, status_verifikasi, created_at, tanggal_verifikasi FROM pendaftaran ORDER BY created_at DESC");
@@ -39,48 +46,46 @@ $query = $conn->query("SELECT id_booking, nama_ketua, status_verifikasi, created
             </div>
         </div>
 
-        <div class="table-wrap">
-            <table style="width:100%; border-collapse:collapse; min-width:800px;">
-                <thead>
-                    <tr style="background:linear-gradient(135deg, var(--primary-600), var(--primary-700));">
-                        <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">ID Booking</th>
-                        <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Nama Ketua</th>
-                        <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Tanggal Daftar</th>
-                        <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Status</th>
-                        <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Waktu Verifikasi</th>
+        <table style="width:100%; border-collapse:collapse;">
+            <thead>
+                <tr style="background:linear-gradient(135deg, var(--primary-600), var(--primary-700));">
+                    <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">ID Booking</th>
+                    <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Nama Ketua</th>
+                    <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Tanggal Daftar</th>
+                    <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Status</th>
+                    <th style="padding:14px 24px; color:white; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; text-align:left;">Waktu Verifikasi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($query->num_rows > 0): ?>
+                    <?php while($row = $query->fetch_assoc()): ?>
+                    <tr style="transition:all 0.2s; border-bottom:1px solid var(--gray-100);">
+                        <td style="padding:14px 24px;">
+                            <span style="background:var(--accent-blue-light); color:var(--accent-blue); padding:4px 10px; border-radius:var(--radius-sm); font-weight:700; font-family:monospace; font-size:13px;">
+                                <?= $row['id_booking'] ?>
+                            </span>
+                        </td>
+                        <td style="padding:14px 24px; font-size:14px; color:var(--gray-700);">
+                            <?= htmlspecialchars($row['nama_ketua']) ?>
+                        </td>
+                        <td style="padding:14px 24px; font-size:13px; color:var(--gray-400);">
+                            <?= !empty($row['created_at']) ? date('d M Y', strtotime($row['created_at'])) : '-' ?>
+                        </td>
+                        <td style="padding:14px 24px;">
+                            <span class="badge badge-<?= strtolower($row['status_verifikasi']) ?>">
+                                <?= strtoupper($row['status_verifikasi']) ?>
+                            </span>
+                        </td>
+                        <td style="padding:14px 24px; font-size:13px; color:var(--gray-500);">
+                            <?= (!empty($row['tanggal_verifikasi']) && $row['tanggal_verifikasi'] != '0000-00-00 00:00:00') ? date('d M Y, H:i', strtotime($row['tanggal_verifikasi'])) : '-' ?>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php if ($query->num_rows > 0): ?>
-                        <?php while($row = $query->fetch_assoc()): ?>
-                        <tr style="transition:all 0.2s; border-bottom:1px solid var(--gray-100);">
-                            <td style="padding:14px 24px;">
-                                <span style="background:var(--accent-blue-light); color:var(--accent-blue); padding:4px 10px; border-radius:var(--radius-sm); font-weight:700; font-family:monospace; font-size:13px;">
-                                    <?= $row['id_booking'] ?>
-                                </span>
-                            </td>
-                            <td style="padding:14px 24px; font-size:14px; color:var(--gray-700);">
-                                <?= htmlspecialchars($row['nama_ketua']) ?>
-                            </td>
-                            <td style="padding:14px 24px; font-size:13px; color:var(--gray-400);">
-                                <?= !empty($row['created_at']) ? date('d M Y', strtotime($row['created_at'])) : '-' ?>
-                            </td>
-                            <td style="padding:14px 24px;">
-                                <span class="badge badge-<?= strtolower($row['status_verifikasi']) ?>">
-                                    <?= strtoupper($row['status_verifikasi']) ?>
-                                </span>
-                            </td>
-                            <td style="padding:14px 24px; font-size:13px; color:var(--gray-500);">
-                                <?= (!empty($row['tanggal_verifikasi']) && $row['tanggal_verifikasi'] != '0000-00-00 00:00:00') ? date('d M Y, H:i', strtotime($row['tanggal_verifikasi'])) : '-' ?>
-                            </td>
-                        </tr>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <tr><td colspan="5" class="table-empty">📭 Belum ada pendaftaran.</td></tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="5" class="table-empty">📭 Belum ada pendaftaran.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 

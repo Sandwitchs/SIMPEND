@@ -1,5 +1,12 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "simpend_db");
+// Koneksi database untuk Railway
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$dbname = getenv('MYSQLDATABASE');
+
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 // Ambil daftar gunung untuk dropdown
 $gunung_query = $conn->query("SELECT * FROM gunung ORDER BY nama_gunung ASC");
 ?>

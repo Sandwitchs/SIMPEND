@@ -1,5 +1,12 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "simpend_db");
+// Koneksi database untuk Railway
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$dbname = getenv('MYSQLDATABASE');
+
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama    = mysqli_real_escape_string($conn, $_POST['nama_ketua']);

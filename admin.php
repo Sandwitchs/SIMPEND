@@ -6,7 +6,14 @@ if (!isset($_SESSION['admin_logged_in'])) {
     exit; 
 }
 
-$conn = new mysqli("localhost", "root", "", "simpend_db");
+// Koneksi database untuk Railway
+$host = getenv('MYSQLHOST');
+$port = getenv('MYSQLPORT');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$dbname = getenv('MYSQLDATABASE');
+
+$conn = new mysqli($host, $user, $pass, $dbname, $port);
 
 // Ambil data pendaftaran terbaru
 $pendaftaran = $conn->query("SELECT * FROM pendaftaran ORDER BY id DESC");
