@@ -1,11 +1,15 @@
-# Dockerfile untuk SIMPEND PHP Native (Sederhana & Aman)
+# Dockerfile untuk SIMPEND PHP Native (Fix MPM)
 FROM php:8.2-apache
 
 # Install ekstensi mysqli & pdo_mysql
 RUN docker-php-ext-install mysqli pdo_mysql
 
-# Aktifkan mod_rewrite Apache
-RUN a2enmod rewrite
+# Nonaktifkan SEMUA MPM, baru aktifkan satu
+RUN a2dismod mpm_event && \
+    a2dismod mpm_worker && \
+    a2dismod mpm_prefork && \
+    a2enmod mpm_prefork && \
+    a2enmod rewrite
 
 # Salin semua file ke direktori web Apache
 COPY . /var/www/html/
