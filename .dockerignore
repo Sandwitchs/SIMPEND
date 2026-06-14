@@ -1,0 +1,9 @@
+simpend-laravel
+.git
+.gitignore
+SIMPEND-upload.zip
+*.log
+.DS_Store
+Thumbs.db
+.vscode
+.idea
